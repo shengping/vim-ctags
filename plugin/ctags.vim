@@ -10,7 +10,9 @@ let g:vim_ctags_loaded = 1
 
 augroup vim_ctags_group
   autocmd!
-  autocmd BufWritePost * call AutoGenTagAfterWrite()
+  if exists('g:vim_ctags_auto_gen') && g:vim_ctags_auto_gen
+    autocmd BufWritePost * call AutoGenTagAfterWrite()
+  endif
 augroup END
 
 command! GenTags call GenTags()
