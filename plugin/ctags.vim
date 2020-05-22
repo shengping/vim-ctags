@@ -7,7 +7,7 @@ let g:vim_ctags_loaded = 1
 command! GenerateTags call GenerateTags()
 
 let b:tags_file = "~/.tags"
-set tags=b:tags_file
+let &tags=b:tags_file
 
 function! GenerateTags()
 
