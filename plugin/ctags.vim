@@ -11,7 +11,7 @@ let g:vim_ctags_loaded = 1
 
 augroup vim_ctags_group
   autocmd!
-  autocmd TextChanged * call AutoGenTagAfterWrite()
+  autocmd BufWritePost * call AutoGenTagAfterWrite()
 augroup END
 
 command! GenTags call GenTags()
@@ -73,7 +73,6 @@ endfunction
 
 function! AutoGenTagAfterWrite()
   if InFilesDirectory(expand("%:p:h"))
-    echom "file in directory changed"
     let l:cmd = join(["silent !ctags -a","--tag-relative=yes",b:languages_option,"-f",b:tags_file,expand("%:p")]," ")
     execute l:cmd
   endif
