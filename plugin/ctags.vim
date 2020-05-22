@@ -16,14 +16,14 @@ augroup END
 
 command! GenTags call GenTags()
 
-let b:tags_file = "~/.tags"
+let g:tags_file_str = "~/.tags"
 
-execute 'set tags+='.b:tags_file
+execute 'set tags+='.g:tags_file_str
 
 if !exists("g:languages") || len(g:languages) == 0
-  let b:languages_option = ""
+  let g:tag_languages_option = ""
 else
-  let b:languages_option = "--languages=".join(g:languages,",")
+  let g:tag_languages_option = "--languages=".join(g:languages,",")
 endif
 
 function! GenTags()
@@ -35,7 +35,7 @@ function! GenTags()
     let l:directory = join(g:files_directory," ")
   endif
 
-  let l:cmd = join(["silent !ctags -R","--tag-relative=yes",b:languages_option,"-f",b:tags_file,l:directory]," ")
+  let l:cmd = join(["silent !ctags -R","--tag-relative=yes",g:tag_languages_option,"-f",g:tags_file_str,l:directory]," ")
 
   echom "Wait a moment ..."
   execute l:cmd
@@ -73,7 +73,7 @@ endfunction
 
 function! AutoGenTagAfterWrite()
   if InFilesDirectory(expand("%:p:h"))
-    let l:cmd = join(["silent !ctags -a","--tag-relative=yes",b:languages_option,"-f",b:tags_file,expand("%:p")]," ")
+    let l:cmd = join(["silent !ctags -a","--tag-relative=yes",g:tag_languages_option,"-f",g:tags_file_str,expand("%:p")]," ")
     execute l:cmd
   endif
 endfunction
