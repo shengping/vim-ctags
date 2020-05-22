@@ -2,7 +2,6 @@
 " Author shengping turingbird@163.com
 "
 
-
 if exists('g:vim_ctags_loaded')
   finish
 endif
@@ -73,6 +72,8 @@ endfunction
 
 function! AutoGenTagAfterWrite()
   if InFilesDirectory(expand("%:p:h"))
+    let l:st=join(split(expand("%:p"),'/'),'\/')
+    execute "silent !sed -i ".'"/'.l:st.'/d" '.g:tags_file_str
     let l:cmd = join(["silent !ctags -a","--tag-relative=yes",g:tag_languages_option,"-f",g:tags_file_str,expand("%:p")]," ")
     execute l:cmd
   endif
