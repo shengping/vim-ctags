@@ -17,10 +17,6 @@ augroup END
 
 command! GenTags call GenTags()
 
-let g:tags_file_str = "~/.tags"
-
-execute 'set tags+='.g:tags_file_str
-
 if !exists("g:languages") || len(g:languages) == 0
   let g:tag_languages_option = ""
 else
@@ -36,7 +32,13 @@ function! GenTags()
     let l:directory = join(g:files_directory," ")
   endif
 
-  let l:cmd = join(["silent !ctags -R","--tag-relative=yes",g:tag_languages_option,"-f",g:tags_file_str,l:directory]," ")
+  if !exists("g:ctag_dst_name") || len(g:ctag_dst_name) == 0
+    let l:ctag_name = "~/.tags"
+  else
+    let l:ctag_name = g:ctag_dst_name
+  endif
+
+  let l:cmd = join(["silent !ctags -R","--tag-relative=yes",g:tag_languages_option,"-f",l:ctag_name,l:directory]," ")
 
   echom "Wait a moment ..."
   execute l:cmd
